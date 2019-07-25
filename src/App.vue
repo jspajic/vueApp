@@ -1,28 +1,52 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <Agents v-bind:agents="agents"/>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Agents from './components/Agents';
+import axios from 'axios';
 
 export default {
   name: 'app',
   components: {
-    HelloWorld
+    Agents
+  },
+  data(){
+    return{
+      agents: []
+    }
+  },
+  created() {
+    axios({
+      url: 'http://localhost:8080',
+      method: 'get',
+      auth:{
+        username:'admin',
+        password:'admin123',
+      }
+    })
+    .then(response => {
+      this.agents = response.data
+      console.log("Auth!")
+    })
+    .catch(error => {
+      console.log(error)
+    })
   }
-}
+  }
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.4;
+  }
 </style>
