@@ -1,52 +1,36 @@
 <template>
-  <div id="app">
-    <Agents v-bind:agents="agents"/>
+  <div id="app" class="container">
+    <nav class="navbar navbar-expand-sm bg-light">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <router-link :to="{ name: 'Create' }" class="nav-link">Dodaj</router-link>
+        </li>
+        <li class="nav-item">
+          <router-link :to="{ name: 'Index' }" class="nav-link">Lista svih</router-link>
+        </li>
+      </ul>
+    </nav>
+    <transition name="fade">
+      <div class="gap">
+        <router-view></router-view>        
+      </div>
+    </transition>
   </div>
 </template>
 
 <script>
-import Agents from './components/Agents';
-import axios from 'axios';
-
 export default {
-  name: 'app',
-  components: {
-    Agents
-  },
-  data(){
-    return{
-      agents: []
-    }
-  },
-  created() {
-    axios({
-      url: 'http://localhost:8080',
-      method: 'get',
-      auth:{
-        username:'admin',
-        password:'admin123',
-      }
-    })
-    .then(response => {
-      this.agents = response.data;
-      console.log("Auth!")
-    })
-    .catch(error => {
-      console.log(error)
-    })
-  }
-  }
+}
 </script>
 
 <style>
-  * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-  }
-
-  body {
-    font-family: Arial, Helvetica, sans-serif;
-    line-height: 1.4;
-  }
+    .fade-enter-active, .fade-leave-active {
+      transition: opacity .5s
+    }
+    .fade-enter, .fade-leave-active {
+      opacity: 0
+    }
+    .gap {
+      margin-top: 50px;
+    }
 </style>
