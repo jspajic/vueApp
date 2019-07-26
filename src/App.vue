@@ -28,7 +28,7 @@ export default {
       }
     })
     .then(response => {
-      this.agents = response.data
+      this.agents = response.data;
       console.log("Auth!")
     })
     .catch(error => {
